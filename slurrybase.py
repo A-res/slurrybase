@@ -1,29 +1,29 @@
 import sqlite3
 
-conn = sqlite3.connect('slurries.db')
-
-
-#cursor.execute("""CREATE TABLE rslurries(title text,country text,ratings real)""")
-#cursor.execute("""INSERT INTO rslurries VALUES ('test', 'russia', '0/0')""")
-conn.row_factory = sqlite3.Row
+conn = sqlite3.connect("mydatabase.db") # или :memory: чтобы сохранить в RAM
 cursor = conn.cursor()
+
+# Создание таблицы
+#cursor.execute("""CREATE TABLE slurbase
+ #                 (title text, country text, rating text)
+  #             """)
+
+# Вставляем данные в таблицу
+cursor.execute("""INSERT INTO slurbase
+                   VALUES ('Strawberry', 'Russia', '7/10')"""
+              )
  
-sql = "SELECT * FROM rslurries WHERE title='test'"
-cursor.execute(sql)
-print(cursor.fetchall()) # or use fetchone()
+# Сохраняем изменения
+conn.commit()
  
-print("Here's a listing of all the records in the table:")
-for row in cursor.execute("SELECT rowid, * FROM rslurries ORDER BY title"):
-    print(row)
- 
-print("Results from a LIKE query:")
-sql = "SELECT * FROM rslurries WHERE title LIKE 'test'"
-cursor.execute(sql)
- 
+# Вставляем множество данных в таблицу используя безопасный метод "?"
+slurbase = [('Exodus', 'Ukraine', '9/10'),
+            ('Until We Have Faces', 'Red', '2/1/2011'),
+            ('The End is Where We Begin', 'Thousand Foot Krutch')
+           ]
+#cursor.executemany("INSERT INTO slurbase VALUES (?,?,?)", slurbase)
+conn.commit()
+
+sql = "SELECT * FROM slurbase WHERE title=?"
+cursor.execute(sql, [("Strawberry")])
 print(cursor.fetchall())
-#for row in cursor.execute(sql):
-   
-
-#conn.commit
-
-#https://python-scripts.com/sqlite
