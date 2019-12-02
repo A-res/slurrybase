@@ -1,4 +1,5 @@
 import sqlite3
+import csv
 
 conn = sqlite3.connect("mydatabase.db") # или :memory: чтобы сохранить в RAM
 cursor = conn.cursor()
@@ -15,12 +16,7 @@ cursor.execute("""INSERT INTO slurbase
  
 # Сохраняем изменения
 conn.commit()
- 
-# Вставляем множество данных в таблицу используя безопасный метод "?"
-slurbase = [('Exodus', 'Ukraine', '9/10'),
-            ('Until We Have Faces', 'Red', '2/1/2011'),
-            ('The End is Where We Begin', 'Thousand Foot Krutch')
-           ]
+
 #cursor.executemany("INSERT INTO slurbase VALUES (?,?,?)", slurbase)
 conn.commit()
 
