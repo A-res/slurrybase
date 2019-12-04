@@ -1,5 +1,7 @@
 import sqlite3
 import csv
+import pandas as pd 
+
 
 conn = sqlite3.connect("mydatabase.db") # или :memory: чтобы сохранить в RAM
 cursor = conn.cursor()
@@ -8,18 +10,20 @@ cursor = conn.cursor()
 #cursor.execute("""CREATE TABLE slurbase
  #                 (title text, country text, rating text)
   #             """)
+with open('slurries.csv', newline='') as csvfile:
+    df = list(csv.reader(csvfile))
+#df = list(pd.read_table("slurries.csv"))
+#print (df)
 
-# Вставляем данные в таблицу
-cursor.execute("""INSERT INTO slurbase
-                   VALUES ('Strawberry', 'Russia', '7/10')"""
-              )
+cursor.executemany('INSERT INTO slurbase VALUES (?,?,?)', (df))
  
 # Сохраняем изменения
 conn.commit()
 
 #cursor.executemany("INSERT INTO slurbase VALUES (?,?,?)", slurbase)
-conn.commit()
+
+       # fwriter.writerow(())
 
 sql = "SELECT * FROM slurbase WHERE title=?"
 cursor.execute(sql, [("Strawberry")])
-print(cursor.fetchall())
+#print(cursor.fetchall())
