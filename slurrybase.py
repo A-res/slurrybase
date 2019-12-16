@@ -14,7 +14,9 @@ with open('slurries.csv', newline='') as csvfile:
     df = list(csv.reader(csvfile))
 #df = list(pd.read_table("slurries.csv"))
 #print (df)
-
+for row in df:
+        print(row)
+        
 cursor.executemany('INSERT INTO slurbase VALUES (?,?,?)', (df))
  
 # Сохраняем изменения
